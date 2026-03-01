@@ -124,7 +124,7 @@ docker run -d --name netflix -p 8081:80 netflix:latest
     sudo apt update
     sudo apt install fontconfig openjdk-17-jre
     java -version
-    # You will output like this- 
+    # You will get output like this- 
     # openjdk version "17.0.8" 2023-07-18
     # OpenJDK Runtime Environment (build 17.0.8+7-Debian-1deb12u1)
     # OpenJDK 64-Bit Server VM (build 17.0.8+7-Debian-1deb12u1, mixed mode, sharing)
@@ -137,6 +137,7 @@ docker run -d --name netflix -p 8081:80 netflix:latest
     /etc/apt/sources.list.d/jenkins.list > /dev/null
     sudo apt-get update
     sudo apt-get install jenkins
+    
     sudo systemctl start jenkins
     sudo systemctl enable jenkins
     ```
@@ -168,7 +169,7 @@ Go to Manage Jenkins → Tools → Install JDK(17) (with adoptium.net jdk-17.0.8
 
 Create the token (In Sonarqube -> Administrator -> Security -> Users -> enerate token with name "jenkins" -> Copy it
 
-Go to Jenkins Dashboard → Manage Jenkins → Credentials → Add Secret Text → Paste token → Name it as "sonar-token". I
+Go to Jenkins Dashboard → Manage Jenkins → Credentials → Add Secret Text → Paste token → Name it as "sonar-token".
 
 After adding sonar-token
 
@@ -203,7 +204,7 @@ pipeline {
         }
         stage('Checkout from Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/N4si/DevSecOps-Project.git'
+                git branch: 'main', url: 'https://github.com/Anubh1001/Netflix-Microservices-on-Amazon-EKS-DevSecOps-CI-CD-Platform.git'
             }
         }
         stage("Sonarqube Analysis") {
@@ -217,7 +218,7 @@ pipeline {
         stage("quality gate") {
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
                 }
             }
         }
