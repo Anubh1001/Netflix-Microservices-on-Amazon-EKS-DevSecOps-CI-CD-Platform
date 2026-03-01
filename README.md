@@ -179,7 +179,7 @@ Click on Apply and Save
 
 **Global Tool Configuration** is used to configure different tools that we install using Plugins
 
-We will install a sonar scanner in the tools.
+We will install a sonar scanner in the tools with name sonar-scanner choosing default version selected
 
 Create a Jenkins webhook
 
@@ -247,7 +247,7 @@ Certainly, here are the instructions without step numbers:
 - After installing the Dependency-Check plugin, you need to configure the tool.
 - Go to "Dashboard" → "Manage Jenkins" → "Global Tool Configuration."
 - Find the section for "OWASP Dependency-Check."
-- Add the tool's name, e.g., "DP-Check."
+- Add the tool's name as "DP-Check" with auto installation with default version from github.com.
 - Save your settings.
 
 **Install Docker Tools and Docker Plugins:**
@@ -269,11 +269,13 @@ Certainly, here are the instructions without step numbers:
   - Go to "Dashboard" → "Manage Jenkins" → "Manage Credentials."
   - Click on "System" and then "Global credentials (unrestricted)."
   - Click on "Add Credentials" on the left side.
-  - Choose "Secret text" as the kind of credentials.
+  - Choose "Username with Password" as the kind of credentials.
   - Enter your DockerHub credentials (Username and Password) and give the credentials an ID (e.g., "docker").
   - Click "OK" to save your DockerHub credentials.
 
-Now, you have installed the Dependency-Check plugin, configured the tool, and added Docker-related plugins along with your DockerHub credentials in Jenkins. You can now proceed with configuring your Jenkins pipeline to include these tools and credentials in your CI/CD process.
+You have installed the Dependency-Check plugin
+Now configure the tool with name "docker" with auto installation with default latest version from docker.com
+Now add Docker-related plugins along with your DockerHub credentials in Jenkins. You can now proceed with configuring your Jenkins pipeline to include these tools and credentials in your CI/CD process.
 
 ```groovy
 
@@ -294,7 +296,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/N4si/DevSecOps-Project.git'
+                git branch: 'main', url: 'https://github.com/Anubh1001/Netflix-Microservices-on-Amazon-EKS-DevSecOps-CI-CD-Platform.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -308,7 +310,7 @@ pipeline{
         stage("quality gate"){
            steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
                 }
             } 
         }
@@ -333,27 +335,27 @@ pipeline{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
                        sh "docker build --build-arg TMDB_V3_API_KEY=<yourapikey> -t netflix ."
-                       sh "docker tag netflix nasi101/netflix:latest "
-                       sh "docker push nasi101/netflix:latest "
+                       sh "docker tag netflix anubh1001/netflix:latest "
+                       sh "docker push anubh1001/netflix:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image nasi101/netflix:latest > trivyimage.txt" 
+                sh "trivy image anubh1001/netflix:latest > trivyimage.txt" 
             }
         }
         stage('Deploy to container'){
             steps{
-                sh 'docker run -d --name netflix -p 8081:80 nasi101/netflix:latest'
+                sh 'docker run -d --name netflix -p 8081:80 anubh1001/netflix:latest'
             }
         }
     }
 }
 
 
-If you get docker login failed errorr
+If you get docker login failed error
 
 sudo su
 sudo usermod -aG docker jenkins
