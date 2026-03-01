@@ -30,7 +30,7 @@
 - Clone your application's code repository onto the EC2 instance:
     
     ```bash
-    git clone https://github.com/N4si/DevSecOps-Project.git
+    https://github.com/Anubh1001/Netflix-Microservices-on-Amazon-EKS-DevSecOps-CI-CD-Platform.git
     ```
     
 
@@ -118,17 +118,18 @@ docker run -d --name netflix -p 8081:80 netflix:latest
 
 1. **Install Jenkins for Automation:**
     - Install Jenkins on the EC2 instance to automate deployment:
-    Install Java
     
     ```bash
+    # Java Installation
     sudo apt update
     sudo apt install fontconfig openjdk-17-jre
     java -version
-    openjdk version "17.0.8" 2023-07-18
-    OpenJDK Runtime Environment (build 17.0.8+7-Debian-1deb12u1)
-    OpenJDK 64-Bit Server VM (build 17.0.8+7-Debian-1deb12u1, mixed mode, sharing)
+    # You will output like this- 
+    # openjdk version "17.0.8" 2023-07-18
+    # OpenJDK Runtime Environment (build 17.0.8+7-Debian-1deb12u1)
+    # OpenJDK 64-Bit Server VM (build 17.0.8+7-Debian-1deb12u1, mixed mode, sharing)
     
-    #jenkins
+    # Jenkins Installation
     sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
     https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
     echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
@@ -160,16 +161,16 @@ Install below plugins
 
 ### **Configure Java and Nodejs in Global Tool Configuration**
 
-Goto Manage Jenkins → Tools → Install JDK(17) and NodeJs(16)→ Click on Apply and Save
+Go to Manage Jenkins → Tools → Install JDK(17) (with adoptium.net jdk-17.0.8.1+1) and NodeJs(16) (with Node-16.2.0) → Click on Apply and Save
 
 
 ### SonarQube
 
-Create the token
+Create the token (In Sonarqube -> Administrator -> Security -> Users -> enerate token with name "jenkins" -> Copy it
 
-Goto Jenkins Dashboard → Manage Jenkins → Credentials → Add Secret Text. It should look like this
+Go to Jenkins Dashboard → Manage Jenkins → Credentials → Add Secret Text → Paste token → Name it as "sonar-token". I
 
-After adding sonar token
+After adding sonar-token
 
 Click on Apply and Save
 
